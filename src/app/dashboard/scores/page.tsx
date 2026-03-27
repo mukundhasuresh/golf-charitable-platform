@@ -2,7 +2,6 @@
 
 import { useState, FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import type { Score } from '@/types';
 
 /**
@@ -10,7 +9,6 @@ import type { Score } from '@/types';
  */
 export default function ScoresPage() {
   const router = useRouter();
-  const supabase = getSupabaseBrowserClient();
 
   const [scores, setScores] = useState<Score[]>([]);
   const [score, setScore] = useState('');

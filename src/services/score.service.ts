@@ -1,5 +1,13 @@
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { createClient } from '@supabase/supabase-js';
 import type { Score } from '@/types';
+
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+if (!url || !anonKey) {
+  throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY');
+}
+
+const supabase = createClient(url, anonKey);
 
 /**
  * Add a new golf score for a user
@@ -11,10 +19,10 @@ export async function addScore(
   date: string
 ): Promise<{ score: Score | null; error: string | null }> {
   try {
-    const supabase = await getSupabaseServerClient();
+    const supabaseClient = supabase;
 
     // Check current score count
-    const { data: currentScores, error: fetchError } = await supabase
+    const { data: currentScores, error: fetchError } = await supabaseClient
       .from('scores')
       .select('id, created_at')
       .eq('user_id', userId)
@@ -68,13 +76,13 @@ export async function addScore(
  */
 export async function getScores(userId: string): Promise<{ scores: Score[] | null; error: string | null }> {
   try {
-    const supabase = await getSupabaseServerClient();
+    const supabaseClient = supabase;
 
-    const { data: scores, error } = await supabase
+    const { data: scores, error } = await supabaseClient
       .from('scores')
       .select('*')
       .eq('user_id', userId)
-      .order('date', { ascending: false });
+      .order('created_at', { ascending: false });
 
     if (error) {
       return { scores: null, error: error.message };
@@ -95,10 +103,10 @@ export async function deleteScore(
   userId: string
 ): Promise<{ error: string | null }> {
   try {
-    const supabase = await getSupabaseServerClient();
+    const supabaseClient = supabase;
 
     // Verify ownership
-    const { data: score, error: fetchError } = await supabase
+    const { data: score, error: fetchError } = await supabaseClient
       .from('scores')
       .select('user_id')
       .eq('id', scoreId)
