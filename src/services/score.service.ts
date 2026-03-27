@@ -18,6 +18,10 @@ export async function addScore(
   score: number,
   date: string
 ): Promise<{ score: Score | null; error: string | null }> {
+  if (!Number.isInteger(score) || score < 1 || score > 45) {
+    return { score: null, error: 'Score must be a number between 1 and 45' };
+  }
+
   try {
     const supabaseClient = supabase;
 
