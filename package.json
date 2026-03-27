@@ -1,0 +1,28 @@
+{
+  "name": "golf-charity-saas",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@stripe/stripe-js": "^9.0.0",
+    "@supabase/auth-helpers-nextjs": "^0.15.0",
+    "@supabase/ssr": "^0.9.0",
+    "@supabase/supabase-js": "^2.100.1",
+    "next": "14.2.5",
+    "react": "^18",
+    "react-dom": "^18",
+    "stripe": "^21.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.14",
+    "autoprefixer": "^10",
+    "postcss": "^8",
+    "tailwindcss": "^3",
+    "typescript": "^5"
+  }
+}
